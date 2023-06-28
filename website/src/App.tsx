@@ -16,14 +16,14 @@ const BlogContainer = styled.div`
   padding: 0.5rem;
   margin-bottom: 1rem;
   width: calc(100% - 1rem);
-  height: 9rem;
+  height: calc(100% - 20rem);
   overflow-y: auto;
 `
 
 const PostContainer = styled.div`
   padding: 0.5rem;
   width: calc(100% - 1rem);
-  height: calc(100% - 26rem);
+  height: 9rem;
   overflow-y: auto;
 `
 
@@ -73,8 +73,12 @@ function App() {
     dispatch(fetchAllBlog())
   }, [])
 
+  const handleBlogCardClick = (blog: Blog) => {
+    setSelectedBlog(blog)
+  }
+
   const blogList = list.map(blog => (
-    <BlogCard key={blog.id} onClick={() => setSelectedBlog(blog)} blog={blog} />
+    <BlogCard key={blog.id} onClick={handleBlogCardClick} blog={blog} />
   ))
 
   const postList = !selectedBlog ? [] : selectedBlog.posts.map(post => (
@@ -95,8 +99,8 @@ function App() {
         {postList}
       </PostContainer>
       <ActionContainer>
-        <CommentInput value={comment} onChange={(input) => setComment(input.target.value)} />
-        <PostButton/>
+        <CommentInput disabled={!selectedBlog} value={comment} onChange={(input) => setComment(input.target.value)} />
+        <PostButton disabled={!selectedBlog} />
       </ActionContainer>
       <div>
         {error && <ErrorMessage>

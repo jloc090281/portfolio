@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { Blog } from 'store/blog/slice'
 
 const Container = styled.div`
-  height: 6rem;
+  height: 89px;
   cursor: pointer;
 `
 
