@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import type { RootState, AppDispatch } from 'store/store'
 import { Blog, fetchAllBlog } from 'store/blog/slice'
 import { BlogCard } from 'components/BlogCard'
+import { Input, Button } from 'components/shared'
 
 const Container = styled.div`
   width: calc(100vw - 2rem);
@@ -48,17 +49,6 @@ const ActionContainer = styled.div`
   align-items: center;
 `
 
-const CommentInput = styled.input`
-  padding: 10px;
-  width: 96%;
-  margin-right: 1rem;
-`
-
-const PostButton = styled.button`
-  height: 2rem;
-  width: 100px;
-`
-
 const ErrorMessage = styled.p`
   color: red;
 `
@@ -99,8 +89,8 @@ function App() {
         {postList}
       </PostContainer>
       <ActionContainer>
-        <CommentInput disabled={!selectedBlog} value={comment} onChange={(input) => setComment(input.target.value)} />
-        <PostButton disabled={!selectedBlog} />
+        <Input disabled={!selectedBlog} value={comment} onChange={(value: string) => setComment(value)} />
+        <Button label="Post" disabled={!selectedBlog || comment === ''} />
       </ActionContainer>
       <div>
         {error && <ErrorMessage>
