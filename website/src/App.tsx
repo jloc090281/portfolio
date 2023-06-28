@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 
@@ -37,10 +37,21 @@ const Title = styled.h1`
 `
 
 const PostItem = styled.div`
+  border: 1px solid black;
+  border-radius: 5px;
+  background-color: rgb(224,224,224);
   max-height: 4rem;
-  cursor: pointer;
-  padding: 0.5rem;
+  cursor: default;
+  padding: 1rem;
   overflow-y: auto;
+  margin-bottom: 0.5rem;
+  &: last-child {
+    margin-bottom: 0;
+  }
+`
+
+const PostItemText = styled.span`
+  color: #000;
 `
 
 const ActionContainer = styled.div`
@@ -58,10 +69,15 @@ function App() {
   const { isLoading, list, error } = useSelector((state: RootState) => state.blog)
   const [selectedBlog, setSelectedBlog] = useState<Blog | undefined>(undefined)
   const [comment, setComment] = useState<string>('')
+  const postContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     dispatch(fetchAllBlog())
   }, [])
+
+  useEffect(() => {
+    if (postContainerRef?.current) postContainerRef.current.scrollTo(0, 0)
+  }, [postContainerRef, selectedBlog])
 
   const handleBlogCardClick = (blog: Blog) => {
     setSelectedBlog(blog)
@@ -73,7 +89,7 @@ function App() {
 
   const postList = !selectedBlog ? [] : selectedBlog.posts.map(post => (
     <PostItem key={post.id}>
-      <span>{post.comment}</span>
+      <PostItemText>{post.comment}</PostItemText>
     </PostItem>
   ))
 
@@ -85,7 +101,7 @@ function App() {
       <BlogContainer>
         {blogList}
       </BlogContainer>
-      <PostContainer>
+      <PostContainer ref={postContainerRef}>
         {postList}
       </PostContainer>
       <ActionContainer>
