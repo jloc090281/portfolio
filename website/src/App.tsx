@@ -4,26 +4,31 @@ import styled from 'styled-components'
 
 import type { RootState, AppDispatch } from 'store/store'
 import { Blog, fetchAllBlog } from 'store/blog/slice'
+import { Carousel } from 'components/shared/Carousel'
 import { BlogCard } from 'components/BlogCard'
+import { PostCard } from 'components/PostCard'
 import { Input, Button } from 'components/shared'
 
 const Container = styled.div`
-  width: calc(100vw - 2rem);
-  height: calc(100vh - 2rem);
-  margin: 1rem;
+  background-color: rgb(224,224,224);
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  color: #5b5b5b;
+  font-family: "Open Sans",Arial,sans-serif;
 `
 
 const BlogContainer = styled.div`
-  padding: 0.5rem;
-  margin-bottom: 1rem;
-  width: calc(100% - 1rem);
-  height: calc(100% - 20rem);
-  overflow-y: auto;
+  display: flex;
+  padding: 1rem;
+  width: calc(100% - 2rem);
+  height: 14rem;
 `
 
 const PostContainer = styled.div`
-  padding: 0.5rem;
-  width: calc(100% - 1rem);
+  margin: 1rem;
+  padding: 0.5rem 0;
+  width: calc(100% - 2rem);
   height: 9rem;
   overflow-y: auto;
 `
@@ -32,31 +37,30 @@ const Title = styled.h1`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 6rem;
+  height: 5rem;
   margin: 0;
+  color: #5588d3;
+  font-size: 3.4rem;
+  font-weight: 300;
+  line-height: 4.6rem;
 `
 
-const PostItem = styled.div`
-  border: 1px solid black;
-  border-radius: 5px;
-  background-color: rgb(224,224,224);
-  max-height: 4rem;
-  cursor: default;
-  padding: 1rem;
-  overflow-y: auto;
-  margin-bottom: 0.5rem;
-  &: last-child {
-    margin-bottom: 0;
-  }
-`
-
-const PostItemText = styled.span`
-  color: #000;
+const SubTitle = styled.h1`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 2rem;
+  margin: 0;
+  color: #5588d3;
+  font-size: 1.4rem;
+  font-weight: 300;
+  line-height: 4.6rem;
 `
 
 const ActionContainer = styled.div`
   display: flex;
-  width: calc(100% - 1rem);
+  margin: 1rem;
+  width: calc(100% - 2rem);
   align-items: center;
 `
 
@@ -76,6 +80,10 @@ function App() {
   }, [])
 
   useEffect(() => {
+    if (list[0]) setSelectedBlog(list[0])
+  }, [list])
+
+  useEffect(() => {
     if (postContainerRef?.current) postContainerRef.current.scrollTo(0, 0)
   }, [postContainerRef, selectedBlog])
 
@@ -84,13 +92,11 @@ function App() {
   }
 
   const blogList = list.map(blog => (
-    <BlogCard key={blog.id} onClick={handleBlogCardClick} blog={blog} />
+    <BlogCard key={blog.id} blog={blog} onClick={handleBlogCardClick} />
   ))
 
   const postList = !selectedBlog ? [] : selectedBlog.posts.map(post => (
-    <PostItem key={post.id}>
-      <PostItemText>{post.comment}</PostItemText>
-    </PostItem>
+    <PostCard key={post.id} post={post} />
   ))
 
   if (isLoading) return <div><span>Loading ...</span></div>
@@ -99,8 +105,9 @@ function App() {
     <Container>
       <Title>Blogs</Title>
       <BlogContainer>
-        {blogList}
+        <Carousel list={blogList} />
       </BlogContainer>
+      <SubTitle>Comments</SubTitle>
       <PostContainer ref={postContainerRef}>
         {postList}
       </PostContainer>
