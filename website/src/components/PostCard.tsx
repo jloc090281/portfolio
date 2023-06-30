@@ -7,11 +7,8 @@ const Container = styled.div`
   width: calc(100% - 3rem);
   cursor: default;
   padding: 1.5rem;
-  margin-bottom: 1rem;
   border-radius: 5px;
-  &: last-child {
-    margin-bottom: 0;
-  }
+  box-shadow: 0 0 8px 2px rgb(0 0 0 / 15%);
 `
 
 const PostItemText = styled.span`

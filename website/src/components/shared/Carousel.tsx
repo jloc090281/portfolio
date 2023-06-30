@@ -20,26 +20,26 @@ const Slide = styled.div<{ $transition: number; }>`
   position: absolute;
   width: calc(100% - 2rem);
   height: calc(100% - 2rem);
-  transition: transform 0.5s ease-out;
+  transition: transform 0.5s ease-in-out;
   transform: translateX(${(props) => props.$transition}%);
 `
 
 const ArrowButton = styled.button`
   display: flex;
   outline: none;
-  background-color: #666;
+  background-color: #5588d3;
   justify-content: center;
   align-items: center;
   position: absolute;
-  top: calc(50% - 15px);
-  color: #000;
+  top: calc(50% - 15px);  
   z-index: 10;
   cursor: pointer;
   user-select: none;
-  border-radius: 100%;
+  border-radius: 50%;
   width: 30px;
   height: 30px;
   padding: 0;
+  border: none;
   &: focus-visible {
     outline: none;
   }
@@ -55,6 +55,7 @@ const PrevButton = styled(ArrowButton)`
 
 interface Props {
   list: JSX.Element[];
+  onMoveCallback?: (id: number) => void;
 }
 
 interface List {
@@ -63,7 +64,7 @@ interface List {
   elm: ReactNode;
 }
 
-export const Carousel = ({ list }: Props) => {
+export const Carousel = ({ list, onMoveCallback }: Props) => {
   const [current, setCurrent] = useState(0)
   const [slideList, setList] = useState<List[]>([])
   
@@ -90,6 +91,7 @@ export const Carousel = ({ list }: Props) => {
       { ...slideList[0], offset: slideList[0].offset + 120 },
       { ...slideList[1], offset: slideList[1].offset + 120 }
     ])
+    onMoveCallback && onMoveCallback(index)
   }
 
   const nextSlide = () => {
@@ -105,6 +107,7 @@ export const Carousel = ({ list }: Props) => {
       { ...slideList[2], offset: slideList[2].offset - 120 },
       { id: crypto.randomUUID(), offset: 120, elm: list[next] },
     ])
+    onMoveCallback && onMoveCallback(index)
   }
 
   return (

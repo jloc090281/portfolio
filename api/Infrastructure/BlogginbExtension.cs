@@ -55,7 +55,7 @@ namespace Services.Infrastructure
                         BlogId = firstBlogId,
                         Id = Guid.NewGuid(),
                         CreatedAt = DateTime.Now.AddHours(1),
-                        Comment = "The term-limited legislator is much closer to that traditional Kent County, West Michigan compassionate-conservative mold, a Lansing consultant said."
+                        Comment = "The term-limited legislator is much closer to that traditional Kent County."
                     },
                     new Post {
                         BlogId = firstBlogId,
@@ -70,6 +70,12 @@ namespace Services.Infrastructure
                         Comment = "On Thursday, Boy Scouts of America President Bob Gates called for the end to the organization’s ban on gay adults who serve as troop leaders or have other roles within the organization.",
                     },
                     new Post {
+                        BlogId = firstBlogId,
+                        Id = Guid.NewGuid(),
+                        CreatedAt = DateTime.Now.AddHours(1),
+                        Comment = "The term-limited legislator is much closer to that traditional Kent County."
+                    },
+                    new Post {
                         BlogId = secondBlogId,
                         Id = Guid.NewGuid(),
                         CreatedAt = DateTime.Now,
@@ -80,6 +86,12 @@ namespace Services.Infrastructure
                         Id = Guid.NewGuid(),
                         CreatedAt = DateTime.Now,
                         Comment = "On Thursday, Boy Scouts of America President Bob Gates called for the end to the organization’s ban on gay adults who serve as troop leaders or have other roles within the organization.",
+                    },
+                    new Post {
+                        BlogId = secondBlogId,
+                        Id = Guid.NewGuid(),
+                        CreatedAt = DateTime.Now,
+                        Comment = "Cohousing has shown itself to be a useful living arrangement for groups of people with all sorts of priorities.",
                     }
                 );
 
