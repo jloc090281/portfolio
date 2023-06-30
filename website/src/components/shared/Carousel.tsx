@@ -26,22 +26,27 @@ const Slide = styled.div<{ $transition: number; }>`
 
 const ArrowButton = styled.button`
   display: flex;
-  outline: none;
-  background-color: #5588d3;
   justify-content: center;
   align-items: center;
   position: absolute;
   top: calc(50% - 15px);  
   z-index: 10;
-  cursor: pointer;
   user-select: none;
   border-radius: 50%;
   width: 30px;
   height: 30px;
   padding: 0;
   border: none;
-  &: focus-visible {
-    outline: none;
+  background-color: rgb(25, 118, 210);
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  &:hover {
+    text-decoration: none;
+    background-color: rgb(21, 101, 192);
+    box-shadow: rgb(0 0 0 / 20%) 0px 2px 4px -1px, rgb(0 0 0 / 14%) 0px 4px 5px 0px, rgb(0 0 0 / 12%) 0px 1px 10px 0px;
+  }
+  @media (hover: hover) {
+    cursor: pointer;
   }
 `
 

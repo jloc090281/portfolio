@@ -7,7 +7,6 @@ const ButtonStyled = styled.button`
   position: relative;
   box-sizing: border-box;
   background-color: transparent;
-  outline: 0;
   border: 0;
   margin: 0;
   border-radius: 0;
@@ -29,7 +28,6 @@ const ButtonStyled = styled.button`
   color: rgb(189,189,189);
   background-color: rgb(224,224,224);
   box-shadow: none;
-
   ${(props) =>
     !props.disabled && `
       cursor: pointer;

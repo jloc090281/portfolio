@@ -29,38 +29,45 @@ const Blogs = styled.article`
 const Posts = styled.article`
   padding: 0 1rem;
   width: calc(100% - 2rem);
-  height: calc(100% - 25rem);
+  height: calc(100% - 24rem);
 `
 
 const Title = styled.header`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 5rem;
+  height: 4rem;
   color: #5588d3;
   font-size: 3.4rem;
   font-weight: 300;
-  line-height: 4.6rem;
 `
 
-const Footer = styled.article`
+const FooterContainer = styled.article`
   display: flex;
   padding: 1rem;
   padding-bottom: 0;
   width: calc(100% - 2rem);
-  align-items: center;
 `
 
 const ErrorMessage = styled.p`
   color: red;
 `
 
+const Footer = ({ disabled }: { disabled: boolean; }) => {
+  const [comment, setComment] = useState<string>('')
+  return (
+    <FooterContainer>
+      <Input disabled={disabled} value={comment} onChange={(value: string) => setComment(value)} />
+      <Button label="Post" disabled={disabled || comment === ''} />
+    </FooterContainer>
+  )
+}
+
 function App() {
   const dispatch = useDispatch<AppDispatch>()
   const { isLoading, list, error } = useSelector((state: RootState) => state.blog)
   const [selectedBlog, setSelectedBlog] = useState<Blog | undefined>(undefined)
-  const [comment, setComment] = useState<string>('')
-
+  
   useEffect(() => {
     dispatch(fetchAllBlog())
   }, [])
@@ -77,9 +84,9 @@ function App() {
     <BlogCard key={blog.id} blog={blog} onClick={handleBlogCardClick} />
   ))
 
-  const postList = !selectedBlog ? [] : selectedBlog.posts.map(post => (
+  const postList = !selectedBlog ? [] : selectedBlog.posts.map(post =>
     <PostCard key={post.id} post={post} />
-  ))
+  )
 
   if (isLoading) return <div><span>Loading ...</span></div>
 
@@ -92,10 +99,7 @@ function App() {
       <Posts>
         <ScrollableList title='Comments' list={postList} />
       </Posts>
-      <Footer>
-        <Input disabled={!selectedBlog} value={comment} onChange={(value: string) => setComment(value)} />
-        <Button label="Post" disabled={!selectedBlog || comment === ''} />
-      </Footer>
+      <Footer disabled={!selectedBlog} />
       <div>
         {error && <ErrorMessage>
           {`Error on blog data fetching: ${error}`}

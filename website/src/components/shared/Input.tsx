@@ -4,6 +4,10 @@ const InputStyled = styled.input`
   padding: 10px;
   width: 96%;
   margin-right: 1rem;
+  border: 0;
+  &:focus-visible {
+    outline: rgb(25, 118, 210) solid 1px;
+  }
 `
 
 interface Props {
