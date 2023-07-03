@@ -10,11 +10,11 @@ namespace Services.Service
         {
             using (var context = new BloggingContext())
             {
-                return context.Blogs?.FirstOrDefault(x => x.Id == id);
+                return context.Blogs?.FirstOrDefault(x => Object.Equals(x.Id, id));
             }
         }
         
-        public void saveBlog(Blog blog)
+        public Blog saveBlog(Blog blog)
         {
             using (var context = new BloggingContext())
             {
@@ -23,14 +23,14 @@ namespace Services.Service
                 context.Blogs?.Add(blog);
                 context.SaveChanges();
             }
-
+            return blog;
         }
 
         public void archiveBlog(Guid id)
         {
             using (var context = new BloggingContext())
             {
-                Blog? existingBlog = context.Blogs?.FirstOrDefault(x => x.Id == id);
+                Blog? existingBlog = context.Blogs?.FirstOrDefault(x => Object.Equals(x.Id, id));
                 if (existingBlog != null)
                 {
                     existingBlog.Status = BlogStatus.Archived;
@@ -60,11 +60,11 @@ namespace Services.Service
             }
         }
 
-        public void postToBlog(Post post)
+        public Post postToBlog(Post post)
         {
             using (var context = new BloggingContext())
             {
-                Blog? existingBlog = context.Blogs?.FirstOrDefault(x => x.Id == post.BlogId);
+                Blog? existingBlog = context.Blogs?.FirstOrDefault(x => Object.Equals(x.Id, post.BlogId));
                 if (existingBlog != null)
                 {
                     post.Id = Guid.NewGuid();
@@ -72,7 +72,7 @@ namespace Services.Service
                     context.Posts?.Add(post);
                     context.SaveChanges();
                 }
-                
+                return post;
             }
 
         }

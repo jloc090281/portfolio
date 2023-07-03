@@ -32,22 +32,38 @@ const ArrowButton = styled.button`
   top: calc(50% - 15px);  
   z-index: 10;
   user-select: none;
-  border-radius: 50%;
   width: 30px;
   height: 30px;
   padding: 0;
   border: none;
-  background-color: rgb(25, 118, 210);
-  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+  border-radius: 50%;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  &:hover {
-    text-decoration: none;
-    background-color: rgb(21, 101, 192);
-    box-shadow: rgb(0 0 0 / 20%) 0px 2px 4px -1px, rgb(0 0 0 / 14%) 0px 4px 5px 0px, rgb(0 0 0 / 12%) 0px 1px 10px 0px;
+  color: rgb(189,189,189);
+  background-color: rgb(224,224,224);
+  box-shadow: none;
+  ${(props) =>
+    !props.disabled && `
+      cursor: pointer;
+      color: #fff;
+      background-color: rgb(25, 118, 210);
+      box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+      &:hover {
+        text-decoration: none;
+        background-color: rgb(21, 101, 192);
+        box-shadow: rgb(0 0 0 / 20%) 0px 2px 4px -1px, rgb(0 0 0 / 14%) 0px 4px 5px 0px, rgb(0 0 0 / 12%) 0px 1px 10px 0px;
+      }
+      &:disabled {
+        text-decoration: none;
+        background-color: rgb(21, 101, 192);
+        box-shadow: rgb(0 0 0 / 20%) 0px 2px 4px -1px, rgb(0 0 0 / 14%) 0px 4px 5px 0px, rgb(0 0 0 / 12%) 0px 1px 10px 0px;
+      }
+      @media (hover: hover) {
+        cursor: pointer;
+      }
+    `
   }
-  @media (hover: hover) {
-    cursor: pointer;
-  }
+  
+  
 `
 
 const NextButton = styled(ArrowButton)`
@@ -74,12 +90,16 @@ export const Carousel = ({ list, onMoveCallback }: Props) => {
   const [slideList, setList] = useState<List[]>([])
   
   useEffect(() => {
-    if (slideList.length === 0 && list.length > 0) {
-      setList([
-        { id: crypto.randomUUID(), offset: -120, elm: list[list.length - 1] },
-        { id: crypto.randomUUID(), offset: 0, elm: list[0] },
-        { id: crypto.randomUUID(), offset: 120, elm: list[1] }
-      ])
+    if (slideList.length === 0) {
+      if (list.length > 1) {
+        setList([
+          { id: crypto.randomUUID(), offset: -120, elm: list[list.length - 1] },
+          { id: crypto.randomUUID(), offset: 0, elm: list[0] },
+          { id: crypto.randomUUID(), offset: 120, elm: list[1] }
+        ])
+      } else {
+        setList([{ id: crypto.randomUUID(), offset: 0, elm: list[0] }])
+      }
     }
   }, [list])
 
@@ -110,7 +130,7 @@ export const Carousel = ({ list, onMoveCallback }: Props) => {
     setList([
       { ...slideList[1], offset: slideList[1].offset - 120 },
       { ...slideList[2], offset: slideList[2].offset - 120 },
-      { id: crypto.randomUUID(), offset: 120, elm: list[next] },
+      { id: crypto.randomUUID(), offset: 120, elm: list[next] }
     ])
     onMoveCallback && onMoveCallback(index)
   }
@@ -122,8 +142,8 @@ export const Carousel = ({ list, onMoveCallback }: Props) => {
           {item.elm}
         </Slide>
       ))}
-      <PrevButton onClick={prevSlide}><img src={leftArrow} /></PrevButton>
-      <NextButton onClick={nextSlide}><img src={rightArrow} /></NextButton>
+      <PrevButton disabled={list.length <= 1} onClick={prevSlide}><img src={leftArrow} /></PrevButton>
+      <NextButton disabled={list.length <= 1} onClick={nextSlide}><img src={rightArrow} /></NextButton>
     </Container>
   )
 }

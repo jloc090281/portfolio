@@ -84,7 +84,7 @@ public class BlogController : ControllerBase
                 return BadRequest("Invalid blog model object");
             }
             _service.saveBlog(blog);
-            return Ok();
+            return Ok(blog);
         }
         catch (Exception ex)
         {
@@ -137,7 +137,7 @@ public class BlogController : ControllerBase
                 return NotFound();
             }
             _service.postToBlog(post);
-            return Ok();
+            return Ok(post);
         }
         catch (Exception ex)
         {
