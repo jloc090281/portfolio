@@ -30,7 +30,7 @@ const ArrowButton = styled.button`
   align-items: center;
   position: absolute;
   top: calc(50% - 15px);  
-  z-index: 10;
+  z-index: 1;
   user-select: none;
   width: 30px;
   height: 30px;
@@ -43,7 +43,7 @@ const ArrowButton = styled.button`
   box-shadow: none;
   ${(props) =>
     !props.disabled && `
-      cursor: pointer;
+      cursor: default;
       color: #fff;
       background-color: rgb(25, 118, 210);
       box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
@@ -52,13 +52,13 @@ const ArrowButton = styled.button`
         background-color: rgb(21, 101, 192);
         box-shadow: rgb(0 0 0 / 20%) 0px 2px 4px -1px, rgb(0 0 0 / 14%) 0px 4px 5px 0px, rgb(0 0 0 / 12%) 0px 1px 10px 0px;
       }
+      @media (hover: hover) {
+        cursor: pointer;
+      }
       &:disabled {
         text-decoration: none;
         background-color: rgb(21, 101, 192);
         box-shadow: rgb(0 0 0 / 20%) 0px 2px 4px -1px, rgb(0 0 0 / 14%) 0px 4px 5px 0px, rgb(0 0 0 / 12%) 0px 1px 10px 0px;
-      }
-      @media (hover: hover) {
-        cursor: pointer;
       }
     `
   }

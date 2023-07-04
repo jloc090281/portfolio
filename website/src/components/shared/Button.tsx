@@ -45,11 +45,11 @@ const ButtonStyled = styled.button`
 
 interface Props {
   label: string;
-  disabled: boolean;
+  disabled?: boolean;
   onClick?: () => void;
 }
 
-const Button = ({ label, disabled, onClick }: Props) => {
+const Button = ({ label, disabled = false, onClick }: Props) => {
   return <ButtonStyled disabled={disabled} onClick={onClick}>{label}</ButtonStyled>
 }
 
