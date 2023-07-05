@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-const ButtonStyled = styled.button`
+const ButtonStyled = styled.button<{ $fullWidth: boolean; $width: string; }>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -28,6 +28,7 @@ const ButtonStyled = styled.button`
   color: rgb(189,189,189);
   background-color: rgb(224,224,224);
   box-shadow: none;
+  width: ${(props) => props.$fullWidth ? '100%' : props.$width};
   ${(props) =>
     !props.disabled && `
       cursor: pointer;
@@ -42,15 +43,19 @@ const ButtonStyled = styled.button`
     `
   }
 `
+type ButtonType = 'submit' | 'button' | 'reset'
 
 interface Props {
   label: string;
+  type?: ButtonType;
+  width?: string;
   disabled?: boolean;
+  fullWidth?: boolean;
   onClick?: () => void;
 }
 
-const Button = ({ label, disabled = false, onClick }: Props) => {
-  return <ButtonStyled disabled={disabled} onClick={onClick}>{label}</ButtonStyled>
+const Button = ({ label, type, width = 'auto', disabled = false, fullWidth = false, onClick }: Props) => {
+  return <ButtonStyled type={type} $width={width} disabled={disabled} $fullWidth={fullWidth} onClick={onClick}>{label}</ButtonStyled>
 }
 
 export default Button

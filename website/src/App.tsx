@@ -4,11 +4,11 @@ import styled from 'styled-components'
 
 import type { RootState, AppDispatch } from 'store/store'
 import { Blog, fetchAllBlog, postToBlog } from 'store/blog/slice'
-import { Carousel } from 'components/shared/Carousel'
-import { ScrollableList } from 'components/shared/ScrollableList'
+import { Carousel, ScrollableList } from 'components/shared'
+import { AddBlogDialog } from 'components/AddBlogDialog'
 import { BlogCard } from 'components/BlogCard'
 import { PostCard } from 'components/PostCard'
-import { BlogFooter } from 'components/BlogFooter'
+import { AddComment } from 'components/AddComment'
 
 const Container = styled.section`
   background-color: rgb(224,224,224);
@@ -16,20 +16,6 @@ const Container = styled.section`
   height: 100vh;
   margin: 0;
   color: #5b5b5b;
-  font-family: "Open Sans",Arial,sans-serif;
-`
-
-const Blogs = styled.article`
-  display: flex;
-  padding: 1rem;
-  width: calc(100% - 2rem);
-  height: 14rem;
-`
-
-const Posts = styled.article`
-  padding: 0 1rem;
-  width: calc(100% - 2rem);
-  height: calc(100% - 24rem);
 `
 
 const Title = styled.header`
@@ -40,6 +26,25 @@ const Title = styled.header`
   color: #5588d3;
   font-size: 3.4rem;
   font-weight: 300;
+`
+
+const Blogs = styled.article`
+  display: flex;
+  padding: 1rem;
+  padding-bottom: 0.5rem;
+  width: calc(100% - 2rem);
+  height: 14rem;
+`
+
+const BlogActions = styled.div`
+  height: 3rem;
+  padding-bottom: 0.5rem;
+`
+
+const Posts = styled.article`
+  padding: 0 1rem;
+  width: calc(100% - 2rem);
+  height: calc(100% - 28rem);
 `
 
 const ErrorMessage = styled.p`
@@ -89,10 +94,13 @@ function App() {
       <Blogs>
         <Carousel list={blogList} onMoveCallback={(id: number) => setSelecteBlogId(list[id].id)} />
       </Blogs>
+      <BlogActions>
+        <AddBlogDialog />
+      </BlogActions>
       <Posts>
         <ScrollableList title='Comments' list={postList} />
       </Posts>
-      <BlogFooter onButtonClick={handlePostToBlogOnClick} disabled={!selectedBlog} />
+      <AddComment onButtonClick={handlePostToBlogOnClick} disabled={!selectedBlog} />
       <div>
         {error && <ErrorMessage>
           {`Error on blog data fetching: ${error}`}

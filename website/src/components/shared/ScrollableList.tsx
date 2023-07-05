@@ -45,7 +45,7 @@ interface Props {
   list: JSX.Element[];
 }
 
-export const ScrollableList = ({ title, list }: Props) => {
+const ScrollableList = ({ title, list }: Props) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [state, setState] = useState({ newList: list, direction: FADE.OUT })
 
@@ -76,3 +76,5 @@ export const ScrollableList = ({ title, list }: Props) => {
     </Container>
   )
 }
+
+export default ScrollableList 

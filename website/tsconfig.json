@@ -25,7 +25,8 @@
       "components/*": ["src/components/*"],
       "store/*": ["src/store/*"],
       "views/*": ["src/views/*"],
-      "utils/*": ["src/utils/*"]
+      "utils/*": ["src/utils/*"],
+      "hooks/*": ["src/hooks/*"]
     },
   },
   "include": ["src"],

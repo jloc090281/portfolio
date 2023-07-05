@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import styled from 'styled-components'
 
-import { Input, Button } from 'components/shared'
+import { Grid, Input, Button } from 'components/shared'
 
 const Container = styled.article`
   display: flex;
+  column-gap: 12px;
   padding: 1rem;
   padding-bottom: 0;
   width: calc(100% - 2rem);
@@ -15,7 +16,7 @@ interface Props {
   onButtonClick?: (value: string) => void;
 }
 
-export const BlogFooter = ({ disabled = false, onButtonClick }: Props) => {
+export const AddComment = ({ disabled = false, onButtonClick }: Props) => {
   const [comment, setComment] = useState<string>('')
 
   const handleButtonClick = () => {
@@ -25,8 +26,12 @@ export const BlogFooter = ({ disabled = false, onButtonClick }: Props) => {
 
   return (
     <Container>
-      <Input disabled={disabled} value={comment} onChange={(value: string) => setComment(value)} />
-      <Button label="Post" onClick={handleButtonClick} disabled={disabled || comment === ''} />
+      <Grid xs={10}>
+        <Input disabled={disabled} value={comment} onChange={(event: { target: { value: string } }) => setComment(event.target.value)} />
+      </Grid>
+      <Grid xs={2}>
+        <Button fullWidth label="Post" onClick={handleButtonClick} disabled={disabled || comment === ''} />
+      </Grid>
     </Container>
   )
 }

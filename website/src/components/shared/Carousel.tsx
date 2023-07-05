@@ -85,7 +85,7 @@ interface List {
   elm: ReactNode;
 }
 
-export const Carousel = ({ list, onMoveCallback }: Props) => {
+const Carousel = ({ list, onMoveCallback }: Props) => {
   const [current, setCurrent] = useState(0)
   const [slideList, setList] = useState<List[]>([])
   
@@ -147,3 +147,5 @@ export const Carousel = ({ list, onMoveCallback }: Props) => {
     </Container>
   )
 }
+
+export default Carousel
