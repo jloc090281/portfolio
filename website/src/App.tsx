@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 
 import type { RootState, AppDispatch } from 'store/store'
-import { Blog, fetchAllBlog, postToBlog } from 'store/blog/slice'
+import { Blog, fetchActiveBlogs, postToBlog } from 'store/blog/slice'
 import { Carousel, ScrollableList } from 'components/shared'
 import { AddBlogDialog } from 'components/AddBlogDialog'
 import { BlogCard } from 'components/BlogCard'
@@ -59,7 +59,7 @@ function App() {
   const selectedBlog = list.find(blog => blog.id === selecteBlogId)
   
   useEffect(() => {
-    dispatch(fetchAllBlog())
+    dispatch(fetchActiveBlogs())
   }, [])
 
   useEffect(() => {

@@ -2,9 +2,8 @@ using System.ComponentModel.DataAnnotations;
 
 public enum BlogStatus
 {
-    Private = 1,
-    Public = 2,
-    Archived = 3
+    Active = 1,
+    Archived = 2
 }
 
 

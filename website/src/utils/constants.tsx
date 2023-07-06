@@ -7,3 +7,8 @@ export const MEDIA_QUERIES = {
   LG: 3,
   XL: 4
 }
+
+export const BLOG_STATUS = {
+  ACTIVE: 1,
+  ARCHIVED: 2
+}

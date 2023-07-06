@@ -1,6 +1,6 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
-import { API_BASE_URL } from 'utils/constants'
+import { API_BASE_URL, BLOG_STATUS } from 'utils/constants'
 
 enum BlogStatus {
   Private = 1,
@@ -40,10 +40,15 @@ const initialState: BlogState = {
   error: undefined
 }
 
-export const fetchAllBlog = createAsyncThunk(
-  'blogs/fetchAll',
+export const fetchActiveBlogs = createAsyncThunk(
+  'blogs/fetchActiveBlogs',
   async () => {
-    const res = await fetch(`${API_BASE_URL}/Blog`)
+    const post = { Status: BLOG_STATUS.ACTIVE }
+    const res = await fetch(`${API_BASE_URL}/Blog/Filter`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(post)
+    })
     return await res.json()
   }
 )
@@ -65,14 +70,14 @@ export const counterSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(fetchAllBlog.pending, (state) => {
+    builder.addCase(fetchActiveBlogs.pending, (state) => {
       state.isLoading = true
     })
-    builder.addCase(fetchAllBlog.fulfilled, (state, { payload }: { payload: Blog[] }) => {
+    builder.addCase(fetchActiveBlogs.fulfilled, (state, { payload }: { payload: Blog[] }) => {
       state.isLoading = false
       state.list = payload
     })
-    builder.addCase(fetchAllBlog.rejected, (state, action) => {
+    builder.addCase(fetchActiveBlogs.rejected, (state, action) => {
       state.isLoading = false
       state.error = action.error.message
     })

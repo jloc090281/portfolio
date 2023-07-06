@@ -18,21 +18,21 @@ namespace Services.Infrastructure
                         CreatedAt = DateTime.Now,
                         Title = "Coffee Mug (Blue)",
                         Description = "Coffee and pets... what else could you need! Our flagship pet printed on a high quality coffee mug.",
-                        Status = BlogStatus.Private,
+                        Status = BlogStatus.Active,
                     },
                     new Blog {
                         Id = secondBlogId,
                         CreatedAt = DateTime.Now.AddMinutes(1),
                         Title = "Coffee Mug (Green)",
                         Description = "Coffee and pets... what else could you need! Our flagship pet printed on a high quality coffee mug.",
-                        Status = BlogStatus.Public
+                        Status = BlogStatus.Active
                     },
                     new Blog {
                         Id = Guid.NewGuid(),
                         CreatedAt = DateTime.Now.AddMinutes(2),
                         Title = "Coffee Mug (Pink)",
                         Description = "Coffee and pets... what else could you need! Our flagship pet printed on a high quality coffee mug.",
-                        Status = BlogStatus.Private
+                        Status = BlogStatus.Active
                     },
                     new Blog {
                         Id = Guid.NewGuid(),

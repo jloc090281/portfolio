@@ -47,16 +47,15 @@ namespace Services.Service
             }
         }
 
-        public IEnumerable<Blog>? filterBlogList(string title, string description, BlogStatus? status, DateTime? createdAt)
+        public IEnumerable<Blog>? filterBlogList(BlogStatus? status, string title = "", string description = "")
         {
             using (var context = new BloggingContext())
             {
-                var list = context.Blogs?.AsEnumerable();
-                if (title != "") list = list?.Where(x => x.Title == title);
-                if (description != "") list = list?.Where(x => x.Description == description);
+                var list = context.Blogs.AsQueryable();
+                if (title != null) list = list?.Where(x => x.Title == title);
+                if (description != null) list = list?.Where(x => x.Description == description);
                 if (status != null) list = list?.Where(x => x.Status == status);
-                if (createdAt != null) list = list?.Where(x => x.CreatedAt == createdAt);
-                return list?.ToList();
+                return list?.Include(blog => blog.Posts).ToList();
             }
         }
 

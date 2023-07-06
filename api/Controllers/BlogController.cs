@@ -37,7 +37,7 @@ public class BlogController : ControllerBase
     {
         try
         {
-            var owners = _service.filterBlogList(data.Title, data.Description, data.Status, data.CreatedAt);
+            var owners = _service.filterBlogList(data.Status, data.Title, data.Description);
             return Ok(owners);
         }
         catch (Exception ex)

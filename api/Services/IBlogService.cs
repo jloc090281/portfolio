@@ -8,7 +8,7 @@ public interface IBlogService
         Blog saveBlog(Blog blog);
         void archiveBlog(Guid id);
         IEnumerable<Blog>? getBlogList();
-        IEnumerable<Blog>? filterBlogList(string title, string description, BlogStatus? status, DateTime? createdAt);
+        IEnumerable<Blog>? filterBlogList(BlogStatus? status, string title, string description);
         Post postToBlog(Post post);
     }
 }
