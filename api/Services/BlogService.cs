@@ -34,6 +34,7 @@ namespace Services.Service
                 if (existingBlog != null)
                 {
                     existingBlog.Status = BlogStatus.Archived;
+                    existingBlog.ArchivedAt = DateTime.Now;
                     context.SaveChanges();
                 }
             }

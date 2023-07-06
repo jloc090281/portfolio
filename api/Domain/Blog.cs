@@ -24,6 +24,7 @@ namespace Services.Domain
         public string Description { get; set; }
 
         public BlogStatus Status { get; set; }
+        public DateTime? ArchivedAt { get; set; }
 
         public ICollection<Post> Posts { get; } = new List<Post>();
     }
