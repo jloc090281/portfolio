@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice, PayloadAction, createSelector } from '@reduxjs/toolkit'
 
 import { API_BASE_URL, BLOG_STATUS } from 'utils/constants'
 
@@ -29,25 +29,25 @@ export type Blog = {
 export interface BlogState {
   isLoading: boolean,
   list: Blog[],
-  isPostingToBlog: boolean,
+  selectedBlog?: Blog,
   error?: string
 }
 
 const initialState: BlogState = {
   isLoading: false,
   list: [],
-  isPostingToBlog: false,
+  selectedBlog: undefined,
   error: undefined
 }
 
 export const fetchActiveBlogs = createAsyncThunk(
   'blogs/fetchActiveBlogs',
   async () => {
-    const post = { Status: BLOG_STATUS.ACTIVE }
+    const body = { Status: BLOG_STATUS.ACTIVE }
     const res = await fetch(`${API_BASE_URL}/Blog/Filter`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(post)
+      body: JSON.stringify(body)
     })
     return await res.json()
   }
@@ -65,10 +65,26 @@ export const postToBlog = createAsyncThunk(
   }
 )
 
-export const counterSlice = createSlice({
+export const saveBlog = createAsyncThunk(
+  'blogs/saveBlog',
+  async (blog: { title: string; description: string; }) => {
+    const res = await fetch(`${API_BASE_URL}/Blog/Save`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(blog),
+    })
+    return await res.json()
+  }
+)
+
+export const blogSlice = createSlice({
   name: 'blogs',
   initialState,
-  reducers: {},
+  reducers: {
+    setSelectedBlog: (state, { payload }: PayloadAction<Blog>) => {
+      state.selectedBlog = payload
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchActiveBlogs.pending, (state) => {
       state.isLoading = true
@@ -76,23 +92,36 @@ export const counterSlice = createSlice({
     builder.addCase(fetchActiveBlogs.fulfilled, (state, { payload }: { payload: Blog[] }) => {
       state.isLoading = false
       state.list = payload
+      state.selectedBlog = payload[0]
     })
     builder.addCase(fetchActiveBlogs.rejected, (state, action) => {
       state.isLoading = false
       state.error = action.error.message
     })
-    builder.addCase(postToBlog.pending, (state) => {
-      state.isPostingToBlog = true
-    })
     builder.addCase(postToBlog.fulfilled, (state, { payload }: { payload: Post }) => {
-      state.isPostingToBlog = false
       state.list = state.list.map(item => item.id === payload.blogId ? { ...item, posts: [...item.posts, payload]} : item )
+      state.selectedBlog = state.selectedBlog ? { ...state.selectedBlog, posts: [...state.selectedBlog.posts, payload] } : undefined
     })
     builder.addCase(postToBlog.rejected, (state, action) => {
-      state.isPostingToBlog = false
+      state.error = action.error.message
+    })
+    builder.addCase(saveBlog.fulfilled, (state, { payload }: { payload: Blog }) => {
+      state.list = [...state.list, payload]
+    })
+    builder.addCase(saveBlog.rejected, (state, action) => {
       state.error = action.error.message
     })
   },
 })
 
-export default counterSlice.reducer
+export const selectBlogList = (state: BlogState) => state.list
+
+export const selectIsLoading = (state: BlogState) => state.isLoading
+
+export const selectError = (state: BlogState) => state.error
+
+export const selectSelectedBlog = (state: BlogState) => state.selectedBlog
+
+export const { setSelectedBlog } = blogSlice.actions
+
+export default blogSlice.reducer

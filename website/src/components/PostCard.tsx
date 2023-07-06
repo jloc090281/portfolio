@@ -4,9 +4,9 @@ import { Post } from 'store/blog/slice'
 const Container = styled.div`
   background-color: #FFF;
   height: auto;
-  width: calc(100% - 3rem);
+  width: calc(100% - 2rem);
   cursor: default;
-  padding: 1.5rem;
+  padding: 1rem;
   border-radius: 5px;
   box-shadow: 0 0 8px 2px rgb(0 0 0 / 15%);
 `

@@ -1,14 +1,12 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 
 import type { RootState, AppDispatch } from 'store/store'
-import { Blog, fetchActiveBlogs, postToBlog } from 'store/blog/slice'
-import { Carousel, ScrollableList } from 'components/shared'
+import { fetchActiveBlogs, selectIsLoading, selectError } from 'store/blog/slice'
 import { AddBlogDialog } from 'components/AddBlogDialog'
-import { BlogCard } from 'components/BlogCard'
-import { PostCard } from 'components/PostCard'
-import { AddComment } from 'components/AddComment'
+import { BlogList } from 'components/BlogList'
+import { CommentList } from 'components/CommentList'
 
 const Container = styled.section`
   background-color: rgb(224,224,224);
@@ -41,7 +39,7 @@ const BlogActions = styled.div`
   padding-bottom: 0.5rem;
 `
 
-const Posts = styled.article`
+const Comments = styled.article`
   padding: 0 1rem;
   width: calc(100% - 2rem);
   height: calc(100% - 28rem);
@@ -53,38 +51,12 @@ const ErrorMessage = styled.p`
 
 function App() {
   const dispatch = useDispatch<AppDispatch>()
-  const { isLoading, isPostingToBlog, list, error } = useSelector((state: RootState) => state.blog)
-  const [selecteBlogId, setSelecteBlogId] = useState('')
-
-  const selectedBlog = list.find(blog => blog.id === selecteBlogId)
+  const isLoading = useSelector((state: RootState) => selectIsLoading(state.blog))
+  const error = useSelector((state: RootState) => selectError(state.blog))
   
   useEffect(() => {
     dispatch(fetchActiveBlogs())
   }, [])
-
-  useEffect(() => {
-    if (selecteBlogId === '' && list[0]) setSelecteBlogId(list[0].id)
-  }, [list])
-
-  const handleBlogCardClick = (blog: Blog) => {
-    setSelecteBlogId(blog.id)
-  }
-
-  const handlePostToBlogOnClick = (comment: string) => {
-    const post = {
-      blogId: selectedBlog ? selectedBlog.id : '',
-      comment: comment
-    }
-    dispatch(postToBlog(post))
-  }
-
-  const blogList = list.map(blog => (
-    <BlogCard key={blog.id} blog={blog} onClick={handleBlogCardClick} />
-  ))
-
-  const postList = !selectedBlog || isPostingToBlog ? [] : selectedBlog.posts.map(post =>
-    <PostCard key={post.id} post={post} />
-  )
 
   if (isLoading) return <div><span>Loading ...</span></div>
 
@@ -92,15 +64,14 @@ function App() {
     <Container>
       <Title>Blogs</Title>
       <Blogs>
-        <Carousel list={blogList} onMoveCallback={(id: number) => setSelecteBlogId(list[id].id)} />
+        <BlogList />
       </Blogs>
       <BlogActions>
-        <AddBlogDialog />
+        <AddBlogDialog onSubmit={(values: { [key: string]: any }) => console.log(values)} />
       </BlogActions>
-      <Posts>
-        <ScrollableList title='Comments' list={postList} />
-      </Posts>
-      <AddComment onButtonClick={handlePostToBlogOnClick} disabled={!selectedBlog} />
+      <Comments>
+        <CommentList />
+      </Comments>
       <div>
         {error && <ErrorMessage>
           {`Error on blog data fetching: ${error}`}

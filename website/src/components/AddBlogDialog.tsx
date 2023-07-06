@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import styled from 'styled-components'
-import { FormProvider, useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
+import { useDispatch } from 'react-redux'
 
-import { Grid, Button, Modal } from 'components/shared'
-import { Input } from 'components/react-hook-form'
+import type { AppDispatch } from 'store/store'
+import { saveBlog } from 'store/blog/slice'
+import { Button, Modal } from 'components/shared'
+import { BlogForm } from 'components/BlogForm'
 
 const Actions = styled.div`
   display: flex;
@@ -34,64 +34,18 @@ const Title = styled.span`
   line-height: normal;
 `
 
-const FormContainer = styled.form`
-  display: flex;
-  flex-direction: column;
-  padding: 12px 0;
-  column-gap: 12px;
-  row-gap: 12px;
-  width: 100%;
-`
-
-const Buttons = styled.div`
-  display: flex;
-  column-gap: 12px;
-`
-
-const defaultValues = {
-  title: "",
-  description: ""
-}
-
-const schema = yup.object().shape(
-  {
-    title: yup.string().required('Required').max(10, 'Title should contain a max of 100 characters'),
-    description: yup.string().required('Required').max(500, 'Description should contain a max of 500 characters')
-  }
-)
-
-const BlogForm = ({ onClose, onSubmit }: { onClose: () => void, onSubmit: (values: { [key: string]: any }) => void; }) => {
-  const methods = useForm({mode: 'onBlur', defaultValues, resolver: yupResolver(schema)})
-
-  const handleFormSubmit = (values: { [key: string]: any }) => {
-    onSubmit(values)
-    onClose()
-  }
-
-  return (
-    <FormProvider {...methods}>
-      <FormContainer onSubmit={methods.handleSubmit(handleFormSubmit)}>
-        <Input name='title' />
-        <Input name='description' />
-        <Buttons>
-          <Grid xs={6} justifyContent='center'>
-            <Button width='100px' label='Save' type='submit' /> 
-          </Grid>
-          <Grid xs={6} justifyContent='center'>
-            <Button width='100px' label='Cancel' onClick={() => onClose()}/> 
-          </Grid>
-        </Buttons>
-      </FormContainer>
-    </FormProvider>
-  )
-}
-
 interface Props {
-  onSubmit?: (values: { [key: string]: any }) => void;
+  onSubmit: (values: { [key: string]: any }) => void;
 }
 
 export const AddBlogDialog = ({ onSubmit }: Props) => {
+  const dispatch = useDispatch<AppDispatch>()
   const [isOpen, setIsOpen] = useState(false)
+
+  const handleOnSubmit = (values: { [key: string]: any }) => {
+    dispatch(saveBlog(values))
+    setIsOpen(false)
+  }
 
   return (
     <>
@@ -101,7 +55,7 @@ export const AddBlogDialog = ({ onSubmit }: Props) => {
       <Modal enableCloseOnEscape={true} open={isOpen} onClose={() => setIsOpen(false)}>
         <Container>
           <Title>Add new Blog</Title>
-          <BlogForm onClose={() => setIsOpen(false)} onSubmit={onSubmit ?? ((values: { [key: string]: any }) => console.log('values', values))}/>
+          <BlogForm onClose={() => setIsOpen(false)} onSubmit={handleOnSubmit}/>
         </Container>
       </Modal>
     </>

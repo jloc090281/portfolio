@@ -20,6 +20,7 @@ namespace Services.Service
             {
                 blog.Id = Guid.NewGuid();
                 blog.CreatedAt = DateTime.Now;
+                blog.Status = BlogStatus.Active;
                 context.Blogs?.Add(blog);
                 context.SaveChanges();
             }

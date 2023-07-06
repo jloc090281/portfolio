@@ -1,4 +1,4 @@
-import { ReactNode, useState, useEffect } from 'react'
+import { ReactNode, useRef, useState, useEffect } from 'react'
 import styled from 'styled-components'
 
 import rightArrow from 'assets/right-arrow.svg'
@@ -90,18 +90,18 @@ const Carousel = ({ list, onMoveCallback }: Props) => {
   const [slideList, setList] = useState<List[]>([])
   
   useEffect(() => {
-    if (slideList.length === 0) {
+    if (list.length > 0) {
       if (list.length > 1) {
         setList([
-          { id: crypto.randomUUID(), offset: -120, elm: list[list.length - 1] },
-          { id: crypto.randomUUID(), offset: 0, elm: list[0] },
-          { id: crypto.randomUUID(), offset: 120, elm: list[1] }
+          { id: crypto.randomUUID(), offset: -120, elm: list[current === 0 ? list.length - 1 : current - 1] },
+          { id: crypto.randomUUID(), offset: 0, elm: list[current] },
+          { id: crypto.randomUUID(), offset: 120, elm: list[current === list.length - 1 ? 0 : current + 1] }
         ])
       } else {
-        setList([{ id: crypto.randomUUID(), offset: 0, elm: list[0] }])
+        setList([{ id: crypto.randomUUID(), offset: 0, elm: list[current] }])
       }
     }
-  }, [list])
+  }, [list.length])
 
   const prevSlide = () => {
     let index = current
