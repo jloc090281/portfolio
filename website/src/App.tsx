@@ -9,7 +9,7 @@ import { BlogList } from 'components/BlogList'
 import { CommentList } from 'components/CommentList'
 
 const Container = styled.section`
-  background-color: rgb(224,224,224);
+  background-color: #1CB5E0;
   width: 100vw;
   height: 100vh;
   margin: 0;
@@ -21,7 +21,7 @@ const Title = styled.header`
   justify-content: center;
   align-items: center;
   height: 4rem;
-  color: #5588d3;
+  color: #FFF;
   font-size: 3.4rem;
   font-weight: 300;
 `
@@ -31,7 +31,7 @@ const Blogs = styled.article`
   padding: 1rem;
   padding-bottom: 0.5rem;
   width: calc(100% - 2rem);
-  height: 14rem;
+  height: 12rem;
 `
 
 const BlogActions = styled.div`
@@ -42,7 +42,7 @@ const BlogActions = styled.div`
 const Comments = styled.article`
   padding: 0 1rem;
   width: calc(100% - 2rem);
-  height: calc(100% - 28rem);
+  height: calc(100% - 26rem);
 `
 
 const ErrorMessage = styled.p`

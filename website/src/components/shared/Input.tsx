@@ -24,7 +24,7 @@ const InputStyled = styled.input<{ $error: boolean; }>`
   color: currentColor;
   padding: 4px 0 5px;
   box-sizing: content-box;
-  background: none;
+  background-color: #FFF;
   height: 1.4375em;
   margin: 0;
   display: block;
@@ -43,7 +43,7 @@ const InputStyled = styled.input<{ $error: boolean; }>`
       border: solid 1px red;
       &:focus {
         outline: 0;
-        padding: 12px 11px;
+        padding: 8px 11px;
         border: solid 2px red;
       }
   `}

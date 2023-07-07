@@ -1,4 +1,4 @@
-import { ReactNode, useRef, useState, useEffect } from 'react'
+import { ReactNode, useState, useEffect } from 'react'
 import styled from 'styled-components'
 
 import rightArrow from 'assets/right-arrow.svg'
@@ -8,6 +8,7 @@ const Container = styled.div`
   box-sizing: border-box;
   display: flex;
   background-color: #FFF;
+  border-radius: 5px;
   position: relative;
   height: 100%;
   width: 100%;

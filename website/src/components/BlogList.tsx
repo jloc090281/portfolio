@@ -17,10 +17,10 @@ const MobileView = styled.div`
 `
 
 const NonMobileView = styled.div`
-  display: block;
+  display: none;
   width: 100%;
-  @media (max-width: 480px) {
-    display: none;
+  @media (min-width: 480px) {
+    display: block;
   }
 `
 
@@ -42,7 +42,7 @@ export const BlogList = () => {
         <Carousel list={blogList} onMoveCallback={(id: number) => handleBlogAction(list[id])} />
       </MobileView>
       <NonMobileView>
-        <ScrollableList list={blogList} />
+        <ScrollableList list={blogList} columnsPerLine={2}/>
       </NonMobileView>
     </>
   )
