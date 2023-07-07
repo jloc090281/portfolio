@@ -7,6 +7,7 @@ const FADE = { IN: 1, OUT: 0 };
 const Container = styled.main`
   background-color: #FFF;
   height: 100%;
+  width: 100%;
 `
 
 const SubTitle = styled.header`
@@ -20,19 +21,20 @@ const SubTitle = styled.header`
   font-weight: 300;
 `
 
-const ScrollableContent = styled.main<{ $transition: string; $opacity: number; }>`
+const ScrollableContent = styled.main<{ $hasTitle: boolean; $transition: string; $opacity: number; }>`
+  display: flex;
+  flex-direction: column;
   background-color: #FFF;
   padding: 1rem 0;
   width: 100%;
-  height: calc(100% - 5rem);
+  height: calc(100% - ${(props) => props.$hasTitle ? '5' : '2'}rem);
   overflow-y: auto;
-  justify-content: center;
   transition: ${(props) => props.$transition};
   opacity: ${(props) => props.$opacity};
 `
 
 const ScrollableItem = styled.div`
-  margin: auto;
+  margin: 0 1rem;
   width: calc(100% - 2rem);
   margin-bottom: 1rem;
   &: last-child {
@@ -67,6 +69,7 @@ const ScrollableList = ({ title, list }: Props) => {
     <Container>
       {title && <SubTitle>Comments</SubTitle>}
       <ScrollableContent
+        $hasTitle={!!title}
         $transition={`opacity ${DEFAULT_ANIMATION_LENGTH}ms ease-in`}
         $opacity={state.direction}
         ref={scrollRef}

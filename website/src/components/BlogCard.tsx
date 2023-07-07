@@ -22,9 +22,6 @@ const Title = styled.span`
   width: fit-content;
   transition: .3s ease all;
   margin-bottom: 0.5rem;
-  &:hover {
-    color: #ff7f66;
-  }
 `
 
 const Description = styled.span`

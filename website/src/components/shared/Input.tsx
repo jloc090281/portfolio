@@ -30,12 +30,12 @@ const InputStyled = styled.input<{ $error: boolean; }>`
   display: block;
   min-width: 0;
   width: calc(100% - 28px);
-  padding: 12px;
+  padding: 9px 12px;
   border-radius: 4px;
   border: solid 1px rgba(0, 0, 0, 0.23);
   &:focus {
     outline: 0;
-    padding: 11px;
+    padding: 8px 11px;
     border: solid 2px rgb(25, 118, 210);
   }
   ${(props) =>

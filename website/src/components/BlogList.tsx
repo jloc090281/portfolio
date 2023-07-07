@@ -1,12 +1,16 @@
 import { useSelector, useDispatch } from 'react-redux'
 
+import useScreenBreakpoint from 'hooks/useScreenSize'
 import type { RootState, AppDispatch } from 'store/store'
 import { setSelectedBlog, selectBlogList } from 'store/blog/slice'
-import { Carousel } from 'components/shared'
+import { Carousel, ScrollableList } from 'components/shared'
 import { BlogCard } from 'components/BlogCard'
 import { Blog } from 'store/blog/slice'
+import { MEDIA_QUERIES } from 'utils/constants'
 
 export const BlogList = () => {
+  const screenBreakpoint = useScreenBreakpoint()
+  const isMobileScreen = screenBreakpoint === MEDIA_QUERIES.XS
   const dispatch = useDispatch<AppDispatch>()
   const list = useSelector((state: RootState) => selectBlogList(state.blog))
 
@@ -20,7 +24,10 @@ export const BlogList = () => {
 
   return (
     <>
-      <Carousel list={blogList} onMoveCallback={(id: number) => handleBlogAction(list[id])} />
+      {isMobileScreen
+        ? <Carousel list={blogList} onMoveCallback={(id: number) => handleBlogAction(list[id])} />
+        : <ScrollableList list={blogList} />
+      }
     </>
   )
 }

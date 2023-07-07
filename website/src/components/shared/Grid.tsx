@@ -1,13 +1,14 @@
 import { ReactNode } from 'react'
 import styled from 'styled-components'
 
-import useScreenBreakpoint from 'hooks/useScreenBreakpoint'
+import useScreenBreakpoint from 'hooks/useScreenSize'
 import { MEDIA_QUERIES } from 'utils/constants'
 
-const Container = styled.div<{ $width: string; $justifyContent: string; }>`
+const Container = styled.div<{ $width: string; $justifyContent: string; $alignItems: string; }>`
   display: flex;
   width: ${(props) => props.$width};
   justify-content: ${(props) => props.$justifyContent};
+  align-items: ${(props) => props.$alignItems};
 `
 
 interface Props {
@@ -18,9 +19,10 @@ interface Props {
   lg?: number;
   xl?: number;
   justifyContent?: string;
+  alignItems?: string;
 }
 
-const Grid = ({ children, xs, sm, md, lg, xl, justifyContent = 'flex-start' }: Props) => {
+const Grid = ({ children, xs, sm, md, lg, xl, justifyContent = 'flex-start', alignItems = 'flex-start' }: Props) => {
   const screenBreakpoint = useScreenBreakpoint()
   let width = 'auto'
   let spaces
@@ -47,7 +49,7 @@ const Grid = ({ children, xs, sm, md, lg, xl, justifyContent = 'flex-start' }: P
       break
   }
   return (
-    <Container $width={width} $justifyContent={justifyContent}>
+    <Container $width={width} $justifyContent={justifyContent} $alignItems={alignItems}>
       {children}
     </Container>
   )

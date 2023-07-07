@@ -29,6 +29,7 @@ const ButtonStyled = styled.button<{ $fullWidth: boolean; $width: string; }>`
   background-color: rgb(224,224,224);
   box-shadow: none;
   width: ${(props) => props.$fullWidth ? '100%' : props.$width};
+  height: 38px;
   ${(props) =>
     !props.disabled && `
       cursor: pointer;

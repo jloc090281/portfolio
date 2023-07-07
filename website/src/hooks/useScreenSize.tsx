@@ -6,6 +6,11 @@ import { MEDIA_QUERIES } from 'utils/constants'
 const useScreenBreakpoint = () => {
   const [screenBreakpoint, setScreenBreakpoint] = useState(MEDIA_QUERIES.XS)
   let screenSize = window.innerWidth
+
+  useEffect(() => {
+    setScreenBreakpoint(getScreenBreakpoint)
+  }, [])
+
   useEffect(() => {
     window.addEventListener("resize", () => {
       screenSize = window.innerWidth
