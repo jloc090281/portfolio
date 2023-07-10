@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { getScreenBreakpoint } from 'utils/screen'
 import { MEDIA_QUERIES } from 'utils/constants'
 
-const useScreenBreakpoint = () => {
+const useScreenSize = () => {
   const [screenBreakpoint, setScreenBreakpoint] = useState(MEDIA_QUERIES.XS)
   let screenSize = window.innerWidth
 
@@ -27,4 +27,4 @@ const useScreenBreakpoint = () => {
   return screenBreakpoint
 }
 
-export default useScreenBreakpoint
+export default useScreenSize

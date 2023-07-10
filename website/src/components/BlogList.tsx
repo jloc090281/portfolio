@@ -6,6 +6,8 @@ import { setSelectedBlog, selectBlogList } from 'store/blog/slice'
 import { Carousel, ScrollableList } from 'components/shared'
 import { BlogCard } from 'components/BlogCard'
 import { Blog } from 'store/blog/slice'
+import useScreenSize from 'hooks/useScreenSize'
+import { MEDIA_QUERIES } from 'utils/constants'
 
 const MobileView = styled.div`
   display: block;
@@ -25,8 +27,11 @@ const NonMobileView = styled.div`
 `
 
 export const BlogList = () => {
+  const screenSize = useScreenSize()
   const dispatch = useDispatch<AppDispatch>()
   const list = useSelector((state: RootState) => selectBlogList(state.blog))
+
+  const columnsPerLine = screenSize === MEDIA_QUERIES.SM ? 2 : 3;
 
   const handleBlogAction = (blog: Blog) => {
     dispatch(setSelectedBlog(blog))
@@ -42,7 +47,7 @@ export const BlogList = () => {
         <Carousel list={blogList} onMoveCallback={(id: number) => handleBlogAction(list[id])} />
       </MobileView>
       <NonMobileView>
-        <ScrollableList list={blogList} columnsPerLine={2}/>
+        <ScrollableList list={blogList} columnsPerLine={columnsPerLine}/>
       </NonMobileView>
     </>
   )

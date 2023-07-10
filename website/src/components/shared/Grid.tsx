@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 import styled from 'styled-components'
 
-import useScreenBreakpoint from 'hooks/useScreenSize'
+import useScreenSize from 'hooks/useScreenSize'
 import { MEDIA_QUERIES } from 'utils/constants'
 
 const Container = styled.div<{ $width: string; $justifyContent: string; $alignItems: string; }>`
@@ -23,10 +23,10 @@ interface Props {
 }
 
 const Grid = ({ children, xs, sm, md, lg, xl, justifyContent = 'flex-start', alignItems = 'flex-start' }: Props) => {
-  const screenBreakpoint = useScreenBreakpoint()
+  const screenSize = useScreenSize()
   let width = 'auto'
   let spaces
-  switch (screenBreakpoint) {
+  switch (screenSize) {
     case MEDIA_QUERIES.XS:
       spaces = xs
       width = spaces ? `calc(100% / 12 * ${spaces});` : 'auto'
