@@ -24,7 +24,7 @@ export const CommentList = () => {
 
   return (
     <>
-      <ScrollableList title='Comments' list={postList} />
+      <ScrollableList title='Comments' autoScrollEnabled list={postList} />
       <AddComment onButtonClick={handlePostToBlogOnClick} disabled={!selectedBlog} />
     </>
   )

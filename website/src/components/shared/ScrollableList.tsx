@@ -46,17 +46,18 @@ const ScrollableItem = styled.div<{ $columnsPerLine: number; }>`
 interface Props {
   title?: string;
   columnsPerLine?: number;
+  autoScrollEnabled?: boolean;
   list: JSX.Element[];
 }
 
-const ScrollableList = ({ title, columnsPerLine = 1, list }: Props) => {
+const ScrollableList = ({ title, columnsPerLine = 1, autoScrollEnabled = false, list }: Props) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [state, setState] = useState({ newList: list, direction: FADE.OUT })
 
   useEffect(() => {
-    if (scrollRef?.current) scrollRef.current.scrollTo({top: 0, left: 0, behavior: 'smooth' })
     setState(prev => ({ ...prev, direction: FADE.OUT }))
     setTimeout(() => {
+      if (scrollRef?.current && autoScrollEnabled) scrollRef.current.scrollTo({top: 0, left: 0 })
       setState({ newList: list, direction: FADE.IN })
     }, DEFAULT_ANIMATION_LENGTH)
   }, [list.length])
