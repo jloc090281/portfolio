@@ -77,11 +77,23 @@ export const saveBlog = createAsyncThunk(
   }
 )
 
+export const archiveBlog = createAsyncThunk(
+  'blogs/archiveBlog',
+  async (id: string) => {
+    const res = await fetch(`${API_BASE_URL}/Blog/Archive`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: id }),
+    })
+    return await res.json()
+  }
+)
+
 export const blogSlice = createSlice({
   name: 'blogs',
   initialState,
   reducers: {
-    setSelectedBlog: (state, { payload }: PayloadAction<Blog>) => {
+    setSelectedBlog: (state, { payload }: PayloadAction<Blog | undefined>) => {
       state.selectedBlog = payload
     },
   },
@@ -109,6 +121,12 @@ export const blogSlice = createSlice({
       state.list = [...state.list, payload]
     })
     builder.addCase(saveBlog.rejected, (state, action) => {
+      state.error = action.error.message
+    })
+    builder.addCase(archiveBlog.fulfilled, (state, { payload }: { payload: Blog }) => {
+      state.list = state.list.filter(item => item.id !== payload.id)
+    })
+    builder.addCase(archiveBlog.rejected, (state, action) => {
       state.error = action.error.message
     })
   },

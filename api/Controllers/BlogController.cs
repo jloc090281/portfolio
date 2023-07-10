@@ -95,18 +95,18 @@ public class BlogController : ControllerBase
 
     [HttpPost]
     [Route("Archive")]
-    public IActionResult Archive(Guid id)
+    public IActionResult Archive([FromBody]FilterById filter)
     {
         try
         {
-            Blog? blogEntity = _service.getBlog(id);
-            if (blogEntity is null)
+            Blog? blog = _service.getBlog(filter.Id);
+            if (blog is null)
             {
-                _logger.LogError($"Blog with id: {id}, hasn't been found.");
+                _logger.LogError($"Blog with id: {filter.Id}, hasn't been found.");
                 return NotFound();
             }
-            _service.archiveBlog(id);
-            return Ok();
+            _service.archiveBlog(filter.Id);
+            return Ok(blog);
         }
         catch (Exception ex)
         {

@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 import type { RootState, AppDispatch } from 'store/store'
 import { fetchActiveBlogs, selectIsLoading, selectError } from 'store/blog/slice'
-import { AddBlogDialog } from 'components/AddBlogDialog'
+import { BlogActions } from 'components/BlogActions'
 import { BlogList } from 'components/BlogList'
 import { CommentList } from 'components/CommentList'
 
@@ -26,7 +26,7 @@ const Title = styled.header`
   font-weight: 300;
 `
 
-const Blogs = styled.article`
+const BlogsSection = styled.article`
   display: flex;
   padding: 1rem;
   padding-bottom: 0.5rem;
@@ -34,12 +34,12 @@ const Blogs = styled.article`
   height: 12rem;
 `
 
-const BlogActions = styled.div`
+const ActionsSection = styled.div`
   height: 3rem;
   padding-bottom: 0.5rem;
 `
 
-const Comments = styled.article`
+const CommentsSection = styled.article`
   padding: 0 1rem;
   width: calc(100% - 2rem);
   height: calc(100% - 26rem);
@@ -63,15 +63,15 @@ function App() {
   return (
     <Container>
       <Title>Blogs</Title>
-      <Blogs>
+      <BlogsSection>
         <BlogList />
-      </Blogs>
-      <BlogActions>
-        <AddBlogDialog onSubmit={(values: { [key: string]: any }) => console.log(values)} />
-      </BlogActions>
-      <Comments>
+      </BlogsSection>
+      <ActionsSection>
+        <BlogActions />
+      </ActionsSection>
+      <CommentsSection>
         <CommentList />
-      </Comments>
+      </CommentsSection>
       <div>
         {error && <ErrorMessage>
           {`Error on blog data fetching: ${error}`}
